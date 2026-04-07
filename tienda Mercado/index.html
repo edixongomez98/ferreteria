@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Herraminentas TOTAL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Herramientas TOTAL</h1>
+    <p>¡tu marca original a la puerta de tu casa adquiere con confianza de la tienda mas segura que trabaja con estas marcas de calidad industrial!</p>
+  </header>
+
+  <main>
+    <section class="catalogo" id="catalogo"></section>
+  </main>
+
+  <!-- Botón flotante del carrito -->
+  <button id="boton-carrito" class="boton-flotante">🛒</button>
+
+  <!-- Panel de carrito flotante -->
+  <section class="carrito" id="carrito">
+    <button id="cerrar-carrito" class="cerrar-carrito">✖</button>
+    <h2>Carrito de Compras</h2>
+    <ul id="carrito-lista"></ul>
+    <p id="total">Total: $0</p>
+
+    <section class="formulario-contacto">
+      <h2>Datos del Cliente</h2>
+      <input type="text" id="nombre" placeholder="Nombre completo" required>
+      <input type="text" id="direccion" placeholder="Dirección de entrega" required>
+      <input type="text" id="telefono" placeholder="Celular de contacto" required>
+    </section>
+
+    <button id="pagar-btn">Pagar con Mercado Pago</button>
+    <button id="whatsapp-btn" class="whatsapp-manual">📱 Enviar pedido por WhatsApp</button>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

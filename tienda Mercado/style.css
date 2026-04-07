@@ -1,0 +1,640 @@
+/* ============================================ */
+/* 1. IMPORTAR FUENTE FUTURISTA                 */
+/* ============================================ */
+/* @import URL: Trae fuentes de Google Fonts    */
+/* Space Grotesk: Fuente moderna y geométrica   */
+/* wght@300-700: Diferentes grosores (light a bold) */
+/* ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+/* ============================================ */
+/* 2. RESET GLOBAL (borra estilos por defecto)  */
+/* ============================================ */
+/* * significa "todos los elementos HTML"       */
+/* margin:0 elimina espacios externos           */
+/* padding:0 elimina espacios internos          */
+/* box-sizing:border-box hace que el ancho total*/
+/* incluya padding y borde (más fácil de medir) */
+/* ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ============================================ */
+/* 3. ESTILOS DEL CUERPO DE LA PÁGINA (body)    */
+/* ============================================ */
+/* font-family: Tipografía principal             */
+/* background: Gradiente radial (círculo)        */
+/*   circle at 20% 50%: centro del círculo       */
+/*   #000003 a #000000: azul muy oscuro a negro */
+/* color: Color del texto (blanco)              */
+/* min-height: Altura mínima = toda la pantalla  */
+/* position:relative para posicionar elementos   */
+/* overflow-x:hidden: oculta scroll horizontal   */
+/* ============================================ */
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: radial-gradient(circle at 20% 50%, #000003, #000000);
+  color: #fff;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ============================================ */
+/* 4. EFECTO DE REJILLA (grid futurista)        */
+/* ============================================ */
+/* ::before es un "pseudo-elemento" que se       */
+/*   inserta ANTES del contenido del body       */
+/* content:"" obligatorio para pseudo-elementos */
+/* position:fixed: fijo en pantalla (como fondo)*/
+/* background-image: Dos líneas (horizontal y   */
+/*   vertical) formando cuadrícula              */
+/* background-size: 40px 40px: tamaño de celda  */
+/* pointer-events:none: la rejilla NO interfiere*/
+/*   con clics del mouse                        */
+/* z-index:0: queda detrás del contenido (capas)*/
+/* ============================================ */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(226, 236, 236, 0.874) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0, 0, 0) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ============================================ */
+/* 5. HEADER (encabezado futurista)             */
+/* ============================================ */
+/* background: rgba(10,10,40,0.8): azul oscuro  */
+/*   con 80% opacidad (transparente)           */
+/* backdrop-filter:blur(10px): difumina lo que  */
+/*   está DETRÁS del header (efecto vidrio)    */
+/* padding: espacio interno arriba/abajo 40px   */
+/*   y laterales 20px                          */
+/* text-align:center: texto centrado            */
+/* border-bottom: línea inferior de 2px, color  */
+/*   cyan (00ffff) con 30% opacidad            */
+/* box-shadow: sombra exterior con color cyan   */
+/* z-index:1: está por encima de la rejilla     */
+/* ============================================ */
+header {
+  background: rgba(61, 203, 238, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 40px 20px;
+  text-align: center;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.751);
+  box-shadow: 0 0 30px rgb(0, 0, 0);
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================ */
+/* 6. TÍTULO PRINCIPAL (h1)                     */
+/* ============================================ */
+/* font-size: 4rem = 4 x tamaño base (aprox 64px)*/
+/* font-weight:700 = negrita                    */
+/* background: gradiente lineal de cyan a magenta*/
+/* -webkit-background-clip:text: aplica el       */
+/*   gradiente SOLO al texto (no al fondo)      */
+/* background-clip:text: lo mismo pero estándar  */
+/* color:transparent: hace que el texto original*/
+/*   sea transparente para ver el gradiente     */
+/* text-shadow: sombra al texto                 */
+/* letter-spacing: espacio entre letras         */
+/* ============================================ */
+header h1 {
+  font-size: 6rem;
+  font-weight: 1200;
+  background: linear-gradient(135deg, #fcfcfc, #f9f7f7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(25, 0, 0, 0);
+  letter-spacing: 2px;
+}
+
+/* ============================================ */
+/* 7. CATÁLOGO (contenedor de productos)        */
+/* ============================================ */
+/* display:grid: sistema de diseño en cuadrícula */
+/* grid-template-columns:                       */
+/*   repeat(auto-fit, minmax(280px, 1fr))       */
+/*   → auto-fit: ajusta automático al espacio   */
+/*   → minmax(280px,1fr): mínimo 280px, máximo  */
+/*     flexible (1fr = 1 fracción del espacio)  */
+/* gap: espacio entre tarjetas (30px)           */
+/* padding: espacio interior de 40px            */
+/* max-width: ancho máximo de 1400px            */
+/* margin:0 auto: centra horizontalmente        */
+/* position:relative: para z-index              */
+/* z-index:1: encima de la rejilla              */
+/* ============================================ */
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================ */
+/* 8. TARJETA DE PRODUCTO                       */
+/* ============================================ */
+/* background: fondo azul oscuro con opacidad    */
+/* backdrop-filter:blur: efecto vidrio          */
+/* border-radius: esquinas redondeadas 20px     */
+/* border: borde de 1px, cyan con opacidad      */
+/* box-shadow: dos sombras (una normal, una neon)*/
+/* transition: animación suave al hacer hover   */
+/* overflow:hidden: oculta lo que se salga      */
+/* position:relative: para el ::before interno  */
+/* ============================================ */
+.producto {
+  background: rgb(239, 239, 244);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================ */
+/* 9. EFECTO DE BRILLO INTERNO (hover)          */
+/* ============================================ */
+/* ::before crea un círculo radial que aparece  */
+/*   al pasar el mouse (hover)                 */
+/* top:-50% left:-50%: posiciona el círculo     */
+/*   fuera de la tarjeta para que se expanda   */
+/* width:200% height:200%: doble del tamaño     */
+/* background:radial-gradient: círculo de color */
+/*   cyan muy tenue que se desvanece           */
+/* opacity:0 → 1: aparece al hacer hover       */
+/* transition: suaviza la aparición            */
+/* ============================================ */
+.producto::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(22, 117, 158, 0.253), transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.producto:hover::before {
+  opacity: 1;
+}
+
+/* ============================================ */
+/* 10. TARJETA AL PASAR EL MOUSE (hover)        */
+/* ============================================ */
+/* transform:translateY(-10px): sube 10px       */
+/* border-color: cambia el borde a cyan brillante*/
+/* box-shadow: sombra más intensa y neón        */
+/* ============================================ */
+.producto:hover {
+  transform: translateY(-10px);
+  border-color: #00ffff;
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.3), 0 0 25px rgba(0, 255, 255, 0.2);
+}
+
+/* ============================================ */
+/* 11. IMAGEN DEL PRODUCTO                      */
+/* ============================================ */
+/* width:100%: ocupa todo el ancho del contenedor*/
+/* height:200px: altura fija de 200px           */
+/* object-fit:cover: recorta la imagen para que  */
+/*   cubra el área sin deformarse               */
+/* border-radius: esquinas redondeadas 12px     */
+/* border: borde sutil cyan                     */
+/* transition: animación al hacer hover         */
+/* ============================================ */
+.producto img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(12, 136, 126, 0.626);
+  transition: transform 0.3s ease;
+}
+
+/* ============================================ */
+/* 12. ZOOM EN IMAGEN AL HOVER                  */
+/* ============================================ */
+/* scale(1.03): agranda la imagen un 3%         */
+/* ============================================ */
+.producto:hover img {
+  transform: scale(1.03);
+}
+
+/* ============================================ */
+/* 13. NOMBRE DEL PRODUCTO (h3)                 */
+/* ============================================ */
+/* font-size:1.5rem = 24px aprox               */
+/* margin:15px arriba/abajo, 0 laterales       */
+/* color:cyan brillante                         */
+/* text-shadow: sombra neón de color cyan       */
+/* ============================================ */
+.producto h3 {
+  font-size: 1.5rem;
+  margin: 15px 0 10px;
+  color: #000101;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* ============================================ */
+/* 14. PRECIO DEL PRODUCTO                      */
+/* ============================================ */
+/* font-weight:600: semi-negrita                */
+/* color: magenta (ff00ff)                      */
+/* margin-bottom:15px: espacio abajo            */
+/* ============================================ */
+.producto p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #050005;
+  margin-bottom: 15px;
+}
+
+/* ============================================ */
+/* 15. BOTONES (GENÉRICO)                       */
+/* ============================================ */
+/* linear-gradient: degradado de cyan a azul    */
+/* color: texto negro                           */
+/* border-radius:30px: bordes redondeados       */
+/* cursor:pointer: cambia el mouse a manito     */
+/* text-transform:uppercase: texto en mayúsculas*/
+/* letter-spacing:1px: espacio entre letras    */
+/* box-shadow: sombra neón                      */
+/* ============================================ */
+button {
+  background: linear-gradient(135deg, #095486e2, #091725);
+  color: #f8f7f7;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* ============================================ */
+/* 16. BOTÓN AL PASAR EL MOUSE                  */
+/* ============================================ */
+/* scale(1.05): agranda 5%                     */
+/* box-shadow: más intensa                      */
+/* gradient: cambia a magenta → cyan           */
+/* color: texto blanco                          */
+/* ============================================ */
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+  background: linear-gradient(135deg, #f6f6f3, #0d333e);
+  color: white;
+}
+
+/* ============================================ */
+/* 17. BOTÓN FLOTANTE DEL CARRITO (🛒)          */
+/* ============================================ */
+/* position:fixed: fijo en pantalla (no se mueve)*/
+/* bottom:30px right:30px: a 30px del borde    */
+/* border-radius:50%: circular perfecto         */
+/* font-size:28px: tamaño del emoji            */
+/* z-index:999: por encima de casi todo        */
+/* box-shadow: sombra magenta neón              */
+/* ============================================ */
+.boton-flotante {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #095486e2, #091725);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 0 25px rgba(19, 117, 128, 0.705);
+  transition: all 0.3s ease;
+}
+
+/* ============================================ */
+/* 18. BOTÓN FLOTANTE AL HOVER                  */
+/* ============================================ */
+/* scale(1.1) rotate(5deg): agranda y rota     */
+/* ============================================ */
+.boton-flotante:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 0 35px rgba(0, 255, 255, 0.8);
+}
+
+/* ============================================ */
+/* 19. PANEL DEL CARRITO (oculto por defecto)   */
+/* ============================================ */
+/* position:fixed: fijo en pantalla             */
+/* right:0 top:0: pegado a la derecha y arriba */
+/* max-width:450px: ancho máximo               */
+/* height:100vh: toda la altura de la pantalla  */
+/* background: fondo azul muy oscuro casi opaco*/
+/* backdrop-filter:blur: efecto vidrio         */
+/* transform:translateX(100%): oculto fuera de  */
+/*   la pantalla (a la derecha)                */
+/* transition: animación al abrir/cerrar       */
+/* cubic-bezier: efecto de resorte personalizado*/
+/* ============================================ */
+.carrito {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  max-width: 450px;
+  height: 100vh;
+  background: rgba(9, 26, 53, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 25px;
+  border-left: 2px solid #00ffff;
+  box-shadow: -5px 0 30px rgba(0, 255, 255, 0.3);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 1000;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ============================================ */
+/* 20. CARRITO ABIERTO (clase .abierto)        */
+/* ============================================ */
+/* transform:translateX(0%): vuelve a su lugar  */
+/* ============================================ */
+.carrito.abierto {
+  transform: translateX(0%);
+}
+
+/* ============================================ */
+/* 21. BOTÓN CERRAR CARRITO (X)                 */
+/* ============================================ */
+/* position:absolute: relativo al .carrito     */
+/* top:15px right:20px: posición               */
+/* background: magenta con opacidad             */
+/* width/height:35px: cuadrado de 35px         */
+/* border-radius:50%: circular                 */
+/* display:flex align-items:center: centra el X */
+/* transition:rotate(90deg): rota al hacer hover*/
+/* ============================================ */
+.cerrar-carrito {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: rgba(8, 3, 80, 0.3);
+  font-size: 22px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.cerrar-carrito:hover {
+  background: #154f5f;
+  transform: rotate(90deg);
+}
+
+/* ============================================ */
+/* 22. LISTA DE PRODUCTOS EN EL CARRITO        */
+/* ============================================ */
+/* list-style:none: quita los puntos de la lista*/
+/* margin:20px 0: espacio arriba y abajo       */
+/* ============================================ */
+#carrito-lista {
+  list-style: none;
+  margin: 20px 0;
+}
+
+/* ============================================ */
+/* 23. CADA ITEM DEL CARRITO (li)              */
+/* ============================================ */
+/* background: cyan con 10% opacidad            */
+/* margin:10px 0: espacio entre items          */
+/* padding:12px: espacio interno               */
+/* border-left: línea izquierda cyan de 3px    */
+/* ============================================ */
+#carrito-lista li {
+  background: rgba(0, 255, 255, 0.1);
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 12px;
+  border-left: 3px solid #00ffff;
+  font-size: 0.9rem;
+}
+
+/* ============================================ */
+/* 24. BOTÓN ELIMINAR DENTRO DEL CARRITO       */
+/* ============================================ */
+/* background: degradado rojo a magenta        */
+/* padding:5px 12px: más pequeño               */
+/* font-size:0.75rem: texto más chico          */
+/* margin-left:10px: separación a la izquierda */
+/* ============================================ */
+#carrito-lista button {
+  background: linear-gradient(135deg, s#1a0213, #230a64);
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  margin-left: 10px;
+}
+
+/* ============================================ */
+/* 25. TOTAL DEL CARRITO                        */
+/* ============================================ */
+/* font-size:1.6rem: grande                    */
+/* font-weight:bold: negrita                   */
+/* text-align:center: centrado                 */
+/* color:magenta                                */
+/* text-shadow: sombra magenta                 */
+/* margin:20px 0: espacio arriba y abajo       */
+/* ============================================ */
+#total {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  color: #fffdff;
+  text-shadow: 0 0 8px rgb(15, 51, 66);
+  margin: 20px 0;
+}
+
+/* ============================================ */
+/* 26. FORMULARIO DE DATOS DEL CLIENTE          */
+/* ============================================ */
+/* padding:15px 0: espacio vertical            */
+/* ============================================ */
+.formulario-contacto {
+  padding: 15px 0;
+}
+
+/* ============================================ */
+/* 27. INPUTS DEL FORMULARIO                   */
+/* ============================================ */
+/* width:100%: ocupa todo el ancho             */
+/* padding:12px: espacio interno               */
+/* margin-bottom:12px: separación entre inputs */
+/* background: fondo negro con 60% opacidad    */
+/* border: borde cyan de 1px                   */
+/* border-radius:30px: bordes redondeados      */
+/* color: texto blanco                          */
+/* ============================================ */
+.formulario-contacto input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid #00ffff;
+  border-radius: 30px;
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: all 0.3s ease;
+}
+
+/* ============================================ */
+/* 28. INPUT AL RECIBIR FOCO (click/tab)       */
+/* ============================================ */
+/* outline:none: quita el borde azul por defecto*/
+/* border-color: cambia a magenta              */
+/* box-shadow: sombra magenta neón             */
+/* ============================================ */
+.formulario-contacto input:focus {
+  outline: none;
+  border-color: #ff00ff;
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+/* ============================================ */
+/* 29. BOTÓN WHATSAPP MANUAL                   */
+/* ============================================ */
+/* background: degradado verde de WhatsApp     */
+/* width:100%: ocupa todo el ancho             */
+/* margin-top:10px: espacio arriba             */
+/* color: texto blanco                          */
+/* ============================================ */
+.whatsapp-manual {
+  background: linear-gradient(135deg, #044f33, #08584f);
+  width: 100%;
+  margin-top: 10px;
+  color: white;
+}
+
+/* ============================================ */
+/* 30. BOTÓN WHATSAPP AL HOVER                 */
+/* ============================================ */
+/* cambia el degradado a magenta → verde       */
+/* ============================================ */
+.whatsapp-manual:hover {
+  background: linear-gradient(135deg, #275d7e, #000000c8);
+}
+
+/* ============================================ */
+/* 31. ANIMACIÓN DEL "CHULITO" (✓)             */
+/* ============================================ */
+/* position:relative en el contenedor para que  */
+/*   el .chulito se posicione dentro           */
+/* ============================================ */
+.agregado-exito {
+  position: relative;
+  display: inline-block;
+}
+
+/* ============================================ */
+/* 32. CHULITO (marca de verificación)         */
+/* ============================================ */
+/* position:absolute: relativo a .agregado-exito*/
+/* top/right: -8px: se sale un poco del botón  */
+/* background: degradado verde a cyan          */
+/* border-radius:50%: circular                 */
+/* opacity:0: invisible por defecto            */
+/* transform:scale(0.5): reducido al 50%       */
+/* pointer-events:none: no interfiere con clics*/
+/* ============================================ */
+.chulito {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(135deg, #3c6e3c, #f5f7f7);
+  color: black;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px 8px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+}
+
+/* ============================================ */
+/* 33. CHULITO CUANDO SE MUESTRA               */
+/* ============================================ */
+/* opacity:1: visible                          */
+/* transform:scale(1.2): agrandado al 120%     */
+/* ============================================ */
+.chulito.mostrar {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* ============================================ */
+/* 34. SCROLLBAR PERSONALIZADA (barra lateral)  */
+/* ============================================ */
+/* width:8px: ancho de la barra                */
+/* ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* ============================================ */
+/* 35. FONDO DE LA SCROLLBAR                   */
+/* ============================================ */
+/* background: azul muy oscuro                 */
+/* ============================================ */
+::-webkit-scrollbar-track {
+  background: #0a0a2a;
+}
+
+/* ============================================ */
+/* 36. "PULGAR" DE LA SCROLLBAR (la parte que  */
+/*     se mueve)                               */
+/* ============================================ */
+/* background: degradado cyan a magenta        */
+/* border-radius:10px: esquinas redondeadas    */
+/* ============================================ */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#5d5f5f, #f6f4f6);
+  border-radius: 10px;
+}
