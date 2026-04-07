@@ -1,42 +1,172 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Herraminentas TOTAL</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>Herramientas TOTAL</h1>
-    <p>¡tu marca original a la puerta de tu casa adquiere con confianza de la tienda mas segura que trabaja con estas marcas de calidad industrial!</p>
-  </header>
+// ============================================
+// 1. LISTA DE PRODUCTOS (Herramientas TOTAL)
+// ============================================
+const productos = [
+  { id: 1, nombre: "🔨 Taladro Percutor 650W", precio: 185000, img: "https://picsum.photos/id/0/300/200" },
+  { id: 2, nombre: "⚙️ Amoladora Angular 4-1/2", precio: 125000, img: "https://picsum.photos/id/1/300/200" },
+  { id: 3, nombre: "🪚 Sierra Circular 7-1/4", precio: 210000, img: "https://picsum.photos/id/2/300/200" },
+  { id: 4, nombre: "🔧 Juego de Llaves Mecánicas 18pz", precio: 89000, img: "https://picsum.photos/id/3/300/200" },
+  { id: 5, nombre: "🧰 Caja de Herramientas 100pz", precio: 165000, img: "https://picsum.photos/id/4/300/200" },
+  { id: 6, nombre: "🖨️ Pistola de Silicona 100W", precio: 45000, img: "https://picsum.photos/id/5/300/200" },
+];
 
-  <main>
-    <section class="catalogo" id="catalogo"></section>
-  </main>
+// ============================================
+// 2. CARRITO (vacío al inicio)
+// ============================================
+let carrito = [];
 
-  <!-- Botón flotante del carrito -->
-  <button id="boton-carrito" class="boton-flotante">🛒</button>
+// ============================================
+// 3. REFERENCIAS A ELEMENTOS DEL HTML
+// ============================================
+const catalogo = document.getElementById("catalogo");
+const carritoLista = document.getElementById("carrito-lista");
+const totalElem = document.getElementById("total");
+const pagarBtn = document.getElementById("pagar-btn");
+const botonCarrito = document.getElementById("boton-carrito");
+const carritoPanel = document.getElementById("carrito");
+const cerrarCarrito = document.getElementById("cerrar-carrito");
+const whatsappBtn = document.getElementById("whatsapp-btn");
 
-  <!-- Panel de carrito flotante -->
-  <section class="carrito" id="carrito">
-    <button id="cerrar-carrito" class="cerrar-carrito">✖</button>
-    <h2>Carrito de Compras</h2>
-    <ul id="carrito-lista"></ul>
-    <p id="total">Total: $0</p>
+// ============================================
+// 4. MOSTRAR PRODUCTOS EN EL CATÁLOGO
+// ============================================
+productos.forEach(p => {
+  const div = document.createElement("div");
+  div.className = "producto";
+  div.innerHTML = `
+    <img src="${p.img}" alt="${p.nombre}">
+    <h3>${p.nombre}</h3>
+    <p>💲 Precio: $${p.precio.toLocaleString()}</p>
+    <div class="agregado-exito">
+      <button onclick="agregarAlCarrito(${p.id}, this)">➕ Agregar al carrito</button>
+      <span class="chulito">✓</span>
+    </div>
+  `;
+  catalogo.appendChild(div);
+});
 
-    <section class="formulario-contacto">
-      <h2>Datos del Cliente</h2>
-      <input type="text" id="nombre" placeholder="Nombre completo" required>
-      <input type="text" id="direccion" placeholder="Dirección de entrega" required>
-      <input type="text" id="telefono" placeholder="Celular de contacto" required>
-    </section>
+// ============================================
+// 5. AGREGAR PRODUCTOS AL CARRITO
+// ============================================
+function agregarAlCarrito(id, boton) {
+  const index = carrito.findIndex(item => item.producto.id === id);
+  
+  if (index !== -1) {
+    carrito[index].cantidad += 1;
+  } else {
+    const producto = productos.find(p => p.id === id);
+    carrito.push({ producto, cantidad: 1 });
+  }
+  
+  mostrarCarrito();
 
-    <button id="pagar-btn">Pagar con Mercado Pago</button>
-    <button id="whatsapp-btn" class="whatsapp-manual">📱 Enviar pedido por WhatsApp</button>
-  </section>
+  // Animación del chulito
+  const contenedor = boton.parentElement;
+  const chulito = contenedor.querySelector(".chulito");
+  chulito.classList.add("mostrar");
+  setTimeout(() => chulito.classList.remove("mostrar"), 1000);
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+// ============================================
+// 6. ELIMINAR DEL CARRITO
+// ============================================
+function eliminarDelCarrito(id) {
+  const index = carrito.findIndex(item => item.producto.id === id);
+  if (index !== -1) {
+    if (carrito[index].cantidad > 1) {
+      carrito[index].cantidad -= 1;
+    } else {
+      carrito.splice(index, 1);
+    }
+    mostrarCarrito();
+  }
+}
+
+// ============================================
+// 7. MOSTRAR CARRITO EN PANTALLA
+// ============================================
+function mostrarCarrito() {
+  carritoLista.innerHTML = "";
+  let total = 0;
+  
+  carrito.forEach(({ producto, cantidad }) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${producto.nombre} x${cantidad} - 💲 $${(producto.precio * cantidad).toLocaleString()}
+      <button onclick="eliminarDelCarrito(${producto.id})" style="margin-left:10px; background:red;">❌ Eliminar</button>
+    `;
+    carritoLista.appendChild(li);
+    total += producto.precio * cantidad;
+  });
+  
+  totalElem.textContent = `💰 Total: $${total.toLocaleString()}`;
+}
+
+// ============================================
+// 8. ABRIR Y CERRAR CARRITO
+// ============================================
+botonCarrito.addEventListener("click", () => {
+  carritoPanel.classList.add("abierto");
+});
+
+cerrarCarrito.addEventListener("click", () => {
+  carritoPanel.classList.remove("abierto");
+});
+
+// ============================================
+// 9. MERCADO PAGO
+// ============================================
+pagarBtn.addEventListener("click", () => {
+  const nombre = document.getElementById("nombre").value.trim();
+  const direccion = document.getElementById("direccion").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+
+  if (!nombre || !direccion || !telefono) {
+    alert("❌ Por favor completa todos los datos del formulario.");
+    return;
+  }
+
+  if (carrito.length === 0) {
+    alert("❌ El carrito está vacío. Agrega productos antes de pagar.");
+    return;
+  }
+
+  alert("✅ Serás redirigido a Mercado Pago para completar tu pago.");
+  // 🔴 CAMBIA ESTE LINK POR TU LINK REAL DE MERCADO PAGO 🔴
+  window.open("https://link.mercadopago.com.co/tugorra", "_blank");
+});
+
+// ============================================
+// 10. WHATSAPP MANUAL
+// ============================================
+whatsappBtn.addEventListener("click", () => {
+  const nombre = document.getElementById("nombre").value.trim();
+  const direccion = document.getElementById("direccion").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+
+  if (!nombre || !direccion || !telefono) {
+    alert("❌ Completa todos tus datos antes de enviar el pedido.");
+    return;
+  }
+
+  if (carrito.length === 0) {
+    alert("❌ El carrito está vacío. Agrega productos primero.");
+    return;
+  }
+
+  let mensaje = `🛠️ HOLA, HICE UNA COMPRA EN HERRAMIENTAS TOTAL:%0A%0A`;
+  carrito.forEach(({ producto, cantidad }) => {
+    mensaje += `✅ ${producto.nombre} x${cantidad} - 💲 $${(producto.precio * cantidad).toLocaleString()}%0A`;
+  });
+  let total = carrito.reduce((sum, { producto, cantidad }) => sum + producto.precio * cantidad, 0);
+  mensaje += `%0A📦 TOTAL: $${total.toLocaleString()}%0A%0A`;
+  mensaje += `👤 DATOS DEL CLIENTE:%0A`;
+  mensaje += `📛 Nombre: ${nombre}%0A`;
+  mensaje += `📍 Dirección: ${direccion}%0A`;
+  mensaje += `📱 Celular: ${telefono}`;
+
+  // 🔴 CAMBIA ESTE NÚMERO POR TU NÚMERO DE WHATSAPP 🔴
+  // Formato: código país + número (sin +, sin espacios)
+  const whatsappUrl = `https://wa.me/573122284474?text=${mensaje}`;
+  window.open(whatsappUrl, "_blank");
+});
